@@ -1,0 +1,60 @@
+{
+    "clients": [
+        {
+            "id": "alpha1",
+            "nume": "john magnat",
+            "telefon": "075412314",
+            "oras": "bucuresti",
+            "balanta": 33
+        },
+        {
+            "id": "alpha2",
+            "nume": "cross tony",
+            "telefon": "075412314",
+            "oras": "bucuresti",
+            "balanta": 45
+        },
+        {
+            "id": "alpha3",
+            "nume": "miss madame",
+            "telefon": "075412314",
+            "oras": "iasi",
+            "balanta": 17
+        },
+        {
+            "id": "alpha4",
+            "nume": "john chos",
+            "telefon": "075412314",
+            "oras": "bucuresti",
+            "balanta": 155
+        },
+        {
+            "nume": "stefan",
+            "telefon": "0766",
+            "oras": "cluj",
+            "balanta": 100,
+            "id": "alpha5"
+        },
+        {
+            "nume": "vlad",
+            "telefon": "0811",
+            "oras": "timis",
+            "balanta": 60,
+            "id": "HgMo"
+        },
+        {
+            "nume": "ioana",
+            "telefon": "0712",
+            "oras": "cluj",
+            "balanta": 1050,
+            "id": "ntHr"
+        },
+        {
+            "nume": "alex",
+            "telefon": "0111",
+            "oras": "cluj",
+            "balanta": 40,
+            "id": "mFE5"
+        }
+    ]
+}
