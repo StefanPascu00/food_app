@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login_style.css') }}">
+    <title>Login - Aplicație Livrare Mâncare</title>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="login" action="/login" method="post">
+            <input type="text" name="username" placeholder="Nume Utilizator" required>
+            <input type="password" name="password" placeholder="Parolă" required>
+            <button type="submit">Login</button>
+        </form>
+        <a href="/signup" class="signup-link">Nu ai cont? Înregistrează-te aici</a>
+    </div>
+</body>
+</html>
