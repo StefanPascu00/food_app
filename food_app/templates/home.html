@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Emag Products</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home_style.css') }}">
+    <script src="{{url_for('static', filename='main.js')}}"></script>
+</head>
+<body>
+    <h1 style="text-align: center; color: black;" onclick="firstFunction()" id="titleID">Available Products</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Ingredients</th>
+        </tr>
+        {% for row in data %}
+        <tr>
+            <td>{{ row.name }}</td>
+            <td>{{ row.price }}</td>
+            <td>{{ row.ingredients }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <form action="/log_out" method="GET">
+    <button type="submit"> Delogheaza </button>
+    </form>
+    <br>
+    <br>
+
+    <button onclick="display_add_product_form()" id="button2" style="display: block;"> ADD Product </button><br>
+    <br>
+    <br>
+    <br>
+    <form id="add_product" action="/add_products" style="display: none" method="post">
+            <label for="product_name">Product name:</label>
+            <input type="text" id="product_name" name="product_name" required><br>
+
+            <label for="ingredients">Ingredients:</label>
+            <input type="text" id="ingredients" name="ingredients" required><br>
+
+            <label for="price">Price:</label>
+            <input type="text" id="price" name="price" required><br>
+
+            <button type="submit" id="send">Send</button>
+        </form>
+
+
+</body>
+</html>

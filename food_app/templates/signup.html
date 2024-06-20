@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
+    <title>Înregistrare - Aplicație Livrare Mâncare</title>
+</head>
+<body>
+    <div class="signup-container">
+        <h2>Înregistrare</h2>
+        <form id="signup" action="/signup" method="post">
+            <input type="text" id='fullname' name="fullname" placeholder="Nume Complet" required>
+            <input type="text" id='username' name="username" placeholder="Nume Utilizator" required>
+            <input type="email" id='email' name="email" placeholder="Email" required>
+            <input type="password" id="password" name="password" placeholder="Parolă" required>
+            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirmare Parolă" required>
+            <button type="submit">Înregistrează-te</button>
+        </form>
+        <a href="/login" class="login-link">Ai deja un cont? Autentifică-te aici</a>
+    </div>
+</body>
+</html>
