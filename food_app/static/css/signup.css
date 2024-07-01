@@ -1,65 +1,51 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to right, #00c6ff, #0072ff);
+    background: #f5f5f5;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+    padding: 20px;
 }
-.signup-container {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 40px 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+.container {
+    max-width: 500px;
     width: 100%;
-    max-width: 400px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+h1 {
     text-align: center;
+    margin-bottom: 20px;
 }
-.signup-container h2 {
-    margin-bottom: 30px;
-    color: #333;
+.form-group {
+    margin-bottom: 15px;
 }
-.signup-container input[type="text"],
-.signup-container input[type="email"],
-.signup-container input[type="password"] {
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+input[type="text"],
+input[type="password"],
+input[type="email"] {
     width: 100%;
-    padding: 15px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 25px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
     box-sizing: border-box;
-    transition: border-color 0.3s ease;
 }
-.signup-container input[type="text"]:focus,
-.signup-container input[type="email"]:focus,
-.signup-container input[type="password"]:focus {
-    border-color: #00c6ff;
-    outline: none;
-}
-.signup-container button {
-    width: 100%;
-    padding: 15px;
-    background: linear-gradient(to right, #00c6ff, #0072ff);
+button {
+    background: #0072ff;
     color: white;
     border: none;
-    border-radius: 25px;
+    border-radius: 5px;
+    padding: 10px 20px;
     cursor: pointer;
-    font-size: 16px;
-    margin-top: 20px;
-    transition: background 0.3s ease;
 }
-.signup-container button:hover {
-    background: linear-gradient(to right, #0072ff, #00c6ff);
+button:hover {
+    background: #005bb5;
 }
-.signup-container .login-link {
-    display: block;
-    margin-top: 20px;
-    color: #00c6ff;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-.signup-container .login-link:hover {
-    color: #0072ff;
-    text-decoration: underline;
+.error {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 10px;
 }

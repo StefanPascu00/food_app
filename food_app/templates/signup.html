@@ -4,20 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
-    <title>Înregistrare - Aplicație Livrare Mâncare</title>
+    <title>Înregistrare</title>
+    <script>
+        function validatePassword() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+            const error = document.getElementById('error');
+            const regex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+            if (!regex.test(password)) {
+                error.textContent = "Parola trebuie să aibă cel puțin 8 caractere, să conțină cel puțin un număr și o literă mare.";
+                return false;
+            }
+
+            if (password !== confirmPassword) {
+                error.textContent = "Parolele nu se potrivesc.";
+                return false;
+            }
+
+            error.textContent = "";
+            return true;
+        }
+    </script>
 </head>
 <body>
-    <div class="signup-container">
-        <h2>Înregistrare</h2>
-        <form id="signup" action="/signup" method="post">
-            <input type="text" id='fullname' name="fullname" placeholder="Nume Complet" required>
-            <input type="text" id='username' name="username" placeholder="Nume Utilizator" required>
-            <input type="email" id='email' name="email" placeholder="Email" required>
-            <input type="password" id="password" name="password" placeholder="Parolă" required>
-            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirmare Parolă" required>
-            <button type="submit">Înregistrează-te</button>
+    <div class="container">
+        <h1>Înregistrare</h1>
+        <form action="/signup" method="post" onsubmit="return validatePassword()">
+            <div class="form-group">
+                <label for="fullname">Nume Complet</label>
+                <input type="text" id="fullname" name="fullname" required>
+            </div>
+            <div class="form-group">
+                <label for="username">Nume Utilizator</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Parolă</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Confirmă Parola</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+            </div>
+            <div id="error" class="error"></div>
+            <button type="submit">Înregistrare</button>
         </form>
-        <a href="/login" class="login-link">Ai deja un cont? Autentifică-te aici</a>
     </div>
 </body>
 </html>
