@@ -68,17 +68,6 @@ def signup():
     return render_template("signup.html")
 
 
-# @app.route("/order", methods=['POST'])
-# def order_product():
-#     try:
-#         product_id = request.form['product_id']
-#         # Add logic for processing the order here (e.g., saving to the database)
-#         data = food_app.read_products(config=config)
-#         return render_template("home_user.html", data=data, message="Comanda a fost plasată cu succes!")
-#     except Exception as e:
-#         return {"ERROR": f"404 NOT FOUND {e}"}
-
-
 @app.route("/order", methods=['POST'])
 def order_product():
     try:
