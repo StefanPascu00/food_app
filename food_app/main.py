@@ -19,6 +19,8 @@ def web_login():
     if user in users.keys():
         if passwd == caesar.decrypt(users[user]):
             data = food_app.read_products(config=config)
+            with open('user.txt', "w") as f:
+                f.write(user)
             if user == 'admin':
                 return render_template("home_admin.html", data=data)
             else:
@@ -29,6 +31,8 @@ def web_login():
 
 @app.route("/log_out")
 def delog():
+    with open('user.txt', "w") as f:
+        user = f.write("")
     return redirect(url_for('open_page'))
 
 
@@ -68,22 +72,32 @@ def signup():
     return render_template("signup.html")
 
 
-@app.route("/order", methods=['POST'])
+@app.route("/order", methods=['GET', 'POST'])
 def order_product():
-    try:
-        product_id = request.form['product_id']
-        quantity = request.form['quantity']
-        user = request.form['username']
-        user_id = next((u['id'] for u in users if u['username'] == user), None)
-        if user_id is not None:
-            food_app.insert_order(int(user_id), int(product_id), int(quantity), config)
+    if request.method == 'POST':
+        try:
+            name = request.form['name']
+            phone = request.form['phone']
+            address = request.form['address']
+            with open('user.txt', "r") as f:
+                user = f.read()
+            if user is None:
+                return {"ERROR": "Utilizatorul nu a fost găsit."}
+
+            products = food_app.read_products(config=config)
+            for product in products:
+                quantity = int(request.form.get(f'quantity_{product["id"]}', 0))
+                if quantity > 0:
+                    food_app.insert_order(name, product['name'], quantity, address, phone, config)
+
             data = food_app.read_products(config=config)
             return render_template("home_user.html", data=data, message="Comanda a fost plasată cu succes!",
                                    username=user)
-        else:
-            return {"ERROR": "Utilizatorul nu a fost găsit."}
-    except Exception as e:
-        return {"ERROR": f"404 NOT FOUND {e}"}
+        except Exception as e:
+            return {"ERROR": f"404 NOT FOUND {e}"}
+    else:
+        data = food_app.read_products(config=config)
+        return render_template("order.html", data=data)
 
 
 if __name__ == '__main__':
