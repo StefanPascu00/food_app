@@ -25,7 +25,7 @@ def read_users(config: dict, table: str = "burger_grill.food_app_user"):
 def read_products(config: dict, table: str = "burger_grill.products"):
     with ps.connect(**config) as conn:
         with conn.cursor() as cursor:
-            sql_query = f"select name, ingredients, price from {table}"
+            sql_query = f"select * from {table}"
             cursor.execute(sql_query)
             products = cursor.fetchall()
             columns = [desc[0] for desc in cursor.description]
@@ -49,9 +49,9 @@ def execute_query(sql_query: str, config: dict):
         return False
 
 
-def insert_order(user_id, product_id, quantity, config):
-    query = (f"INSERT INTO burger_grill.user_orders (user_id, product_id, quantity) "
-             f"VALUES ({user_id}, {product_id}, {quantity})")
+def insert_order(user_name, product_name, quantity, addres, phone, config):
+    query = (f"INSERT INTO burger_grill.user_orders (user_name, product_name, quantity, adress, phone) "
+             f"VALUES ('{user_name}', '{product_name}', {quantity}, '{addres}', '{phone}')")
     execute_query(query, config)
 
 
