@@ -1,23 +1,35 @@
-def encrypt(text, key_encrypt: int = 3):
+def decrypt(message: str, key: int = 20):
+    message = message
+    alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkmlmnopqestuvwxyz"
     result = ""
 
-    # traverse text
-    for i in range(len(text)):
-        char = text[i]
+    for letter in message:
+        if letter in alpha:
+            letter_index = (alpha.find(letter) + key) % len(alpha)
 
-        if char.isupper():
-            result += chr((ord(char) + key_encrypt - 65) % 26 + 65)
+            result = result + alpha[letter_index]
         else:
-            result += chr((ord(char) + key_encrypt - 97) % 26 + 97)
+            result = result + letter
 
     return result
 
 
-def decrypt(text):
+def encrypt(message: str, key: int = 20):
+    message = message
+    alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkmlmnopqestuvwxyz"
     result = ""
 
-    for index in range(len(text)):
-        char = ord(text[index])
-        decrypt_pass = char - 103
-        result += str(decrypt_pass)
+    for letter in message:
+        if letter in alpha:
+            letter_index = (alpha.find(letter) - key) % len(alpha)
+
+            result = result + alpha[letter_index]
+        else:
+            result = result + letter
+
     return result
+
+
+if __name__ == '__main__':
+    print(encrypt("123salut"))
+    print(decrypt("ZGSba123h"))
