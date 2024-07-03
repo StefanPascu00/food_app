@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home_user.css') }}">
     <title>Plasează Comanda</title>
+
 </head>
 <body>
     <div class="container">
@@ -26,7 +27,8 @@
             <ul class="product-list">
                 {% for product in data %}
                 <li class="product-item">
-                    <div>
+                    <div class="product-info">
+                        <img src="{{ product.image_url }}" alt="{{ product.name }}" class="product-image">
                         <span class="product-name">{{ product.name }}</span>
                         <span class="product-price">{{ product.price }} RON</span>
                     </div>
@@ -39,9 +41,8 @@
             </ul>
             <button type="submit">Trimite Comanda</button>
         </form>
-        <br>
-        <form action="/log_out" method="GET">
-            <button type="submit"> Delogheaza </button>
+        <form action="/log_out">
+            <button>Deloghează</button>
         </form>
     </div>
 </body>
