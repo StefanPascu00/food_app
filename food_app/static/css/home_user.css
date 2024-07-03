@@ -1,78 +1,110 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f5f5f5;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background: #f5f5f5;
+display: flex;
+justify-content: center;
+padding: 20px;
 }
+
 .container {
-    max-width: 800px;
-    width: 100%;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+max-width: 800px;
+width: 100%;
+background: white;
+border-radius: 8px;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+padding: 20px;
 }
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
+
+h1, h2 {
+text-align: center;
+margin-bottom: 20px;
 }
+
 .form-group {
-    margin-bottom: 15px;
+margin-bottom: 15px;
 }
+
 label {
-    display: block;
-    margin-bottom: 5px;
+display: block;
+margin-bottom: 5px;
 }
+
 input[type="text"],
 input[type="number"],
 input[type="tel"],
 textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
+width: 100%;
+padding: 10px;
+border: 1px solid #ddd;
+border-radius: 5px;
+box-sizing: border-box;
 }
+
 button {
-    background: #0072ff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
+background: #0072ff;
+color: white;
+border: none;
+border-radius: 5px;
+padding: 10px 20px;
+cursor: pointer;
+display: block;
+width: 100%;
+margin-top: 20px;
 }
+
 button:hover {
-    background: #005bb5;
+background: #005bb5;
 }
+
 .product-list {
-    list-style-type: none;
-    padding: 0;
-    margin-top: 20px;
+list-style-type: none;
+padding: 0;
+margin-top: 20px;
 }
+
 .product-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 10px;
+border-bottom: 1px solid #ddd;
 }
+
 .product-item:last-child {
-    border-bottom: none;
+border-bottom: none;
 }
+
+.product-image {
+width: 50px;
+height: auto;
+margin-right: 15px;
+border-radius: 5px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-info {
+display: flex;
+align-items: center;
+}
+
 .product-name {
-    font-weight: bold;
+font-weight: bold;
+margin-right: 10px;
 }
+
 .product-price {
-    color: #0072ff;
+color: #0072ff;
 }
+
 .quantity-input {
-    display: flex;
-    align-items: center;
+display: flex;
+align-items: center;
 }
+
 .quantity-input label {
-    margin-right: 10px;
+margin-right: 10px;
 }
+
 .quantity-input input {
-    width: 60px;
+width: 60px;
 }

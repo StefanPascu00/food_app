@@ -4,40 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home_admin.css') }}">
-    <title>Acasă - Administrator</title>
-    <style>
-
-    </style>
+    <title>Admin Home</title>
 </head>
 <body>
     <div class="container">
-        <h1>Adăugați un Produs Nou</h1>
-        <form id="add_product" action="/add_products" method="post">
+        <h1>Adaugă un Produs Nou</h1>
+        <form action="/add_products" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="product_name">Nume Produs</label>
+                <label for="product_name">Nume Produs:</label>
                 <input type="text" id="product_name" name="product_name" required>
             </div>
             <div class="form-group">
-                <label for="ingredients">Ingrediente</label>
-                <input type="text" id="ingredients" name="ingredients" required>
+                <label for="ingredients">Ingrediente:</label>
+                <textarea id="ingredients" name="ingredients" required></textarea>
             </div>
             <div class="form-group">
-                <label for="price">Preț (RON)</label>
+                <label for="price">Preț:</label>
                 <input type="number" id="price" name="price" required>
             </div>
-            <button type="submit">Adăugați Produsul</button>
+            <div class="form-group">
+                <label for="image">Imagine:</label>
+                <input type="file" id="image" name="image" accept="image/*" required>
+            </div>
+            <button type="submit">Adaugă Produs</button>
         </form>
+    </div>
+
+    <div class="container">
         <h1>Produse Existente</h1>
         <ul class="product-list">
             {% for product in data %}
             <li class="product-item">
-                <span class="product-name">{{ product.name }}</span>
-                <span class="product-price">{{ product.price }} RON</span>
+                <img src="{{ product.image_url }}" alt="{{ product.name }}" class="product-image">
+                <div class="product-info">
+                    <span class="product-name">{{ product.name }}</span>
+                    <span class="product-ingredients">{{ product.ingredients }}</span>
+                    <span class="product-price">{{ product.price }} RON</span>
+                </div>
             </li>
             {% endfor %}
         </ul>
-        <form action="/log_out" method="GET">
-        <button type="submit"> Delogheaza </button>
+        <form action="/log_out">
+            <button>Deloghează</button>
         </form>
     </div>
 </body>

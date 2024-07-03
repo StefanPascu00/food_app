@@ -1,10 +1,20 @@
 from flask import Flask, render_template, request, redirect, url_for
 import caesar
 import food_app
+import os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 config = food_app.read_config()
 users = food_app.read_users(config=config)
+
+UPLOAD_FOLDER = 'static/uploads/'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route("/")
@@ -42,11 +52,20 @@ def add_products():
         product_name = request.form['product_name']
         ingredients = request.form['ingredients']
         price = request.form['price']
-        query = (f"INSERT INTO burger_grill.products (name, ingredients, price) "
-                 f"VALUES ('{product_name}', '{ingredients}', {price})")
-        food_app.execute_query(sql_query=query, config=config)
-        data = food_app.read_products(config=config)
-        return render_template("home_admin.html", data=data)
+        image = request.files['image']
+
+        if image and allowed_file(image.filename):
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            image_url = f"/{app.config['UPLOAD_FOLDER']}/{filename}"
+
+            query = (f"INSERT INTO burger_grill.products (name, ingredients, price, image_url) "
+                     f"VALUES ('{product_name}', '{ingredients}', {price}, '{image_url}')")
+            food_app.execute_query(sql_query=query, config=config)
+            data = food_app.read_products(config=config)
+            return render_template("home_admin.html", data=data)
+        else:
+            return render_template("home_admin.html", error="Fișierul încărcat nu este valid.")
     except Exception as e:
         return {"ERROR": f"404 NOT FOUND {e}"}
 
