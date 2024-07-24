@@ -3,6 +3,7 @@ import caesar
 import food_app
 import os
 from werkzeug.utils import secure_filename
+from tkinter import messagebox as msg
 
 app = Flask(__name__)
 config = food_app.read_config()
@@ -40,7 +41,7 @@ def web_login():
 
 
 @app.route("/log_out")
-def delog():
+def log_out():
     with open('user.txt', "w") as f:
         user = f.write("")
     return redirect(url_for('open_page'))
@@ -103,20 +104,32 @@ def order_product():
             if user is None:
                 return {"ERROR": "Utilizatorul nu a fost găsit."}
 
-            products = food_app.read_products(config=config)
-            for product in products:
-                quantity = int(request.form.get(f'quantity_{product["id"]}', 0))
-                if quantity > 0:
-                    food_app.insert_order(name, product['name'], quantity, address, phone, config)
+            if len(phone) == 10 and phone.startswith("07"):
+
+                products = food_app.read_products(config=config)
+                fast_food = []
+                total_price = 0
+                for product in products:
+                    quantity = int(request.form.get(f'quantity_{product["id"]}', 0))
+                    if quantity > 0:
+                        food_app.insert_order(name, product['name'], quantity, address, phone, config)
+                        name = product['name']
+                        quantity = quantity
+                        fast_food.append(f"{product['name']}->{quantity}")
+                        price = int(product['price']) * int(quantity)
+                        total_price += price
+                msg.showinfo(user, str(fast_food))
+            else:
+                msg.showerror("Error", "Numarul nu are 10 cifre sau nu incepe cu 07")
 
             data = food_app.read_products(config=config)
-            return render_template("home_user.html", data=data, message="Comanda a fost plasată cu succes!",
-                                   username=user)
+            return render_template("order_succes.html", name=name, phone=phone,
+                                   address=address, total_price=total_price, message="Comanda a fost plasată cu succes!")
         except Exception as e:
             return {"ERROR": f"404 NOT FOUND {e}"}
     else:
         data = food_app.read_products(config=config)
-        return render_template("order.html", data=data)
+        return render_template("home_user.html", data=data)
 
 
 if __name__ == '__main__':
