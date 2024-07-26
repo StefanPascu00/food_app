@@ -1,4 +1,3 @@
-import base64
 import json
 import psycopg2 as ps
 
@@ -49,9 +48,9 @@ def execute_query(sql_query: str, config: dict):
         return False
 
 
-def insert_order(user_name, product_name, quantity, addres, phone, config):
-    query = (f"INSERT INTO burger_grill.user_orders (user_name, product_name, quantity, adress, phone) "
-             f"VALUES ('{user_name}', '{product_name}', {quantity}, '{addres}', '{phone}')")
+def insert_order(user_name: str, order_name: str, addres: str, phone: str, config):
+    query = (f"INSERT INTO burger_grill.user_orders (user_name, order_name, adress, phone) "
+             f"VALUES ('{user_name}', '{order_name}', '{addres}', '{phone}')")
     execute_query(query, config)
 
 

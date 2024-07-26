@@ -1,11 +1,10 @@
-import re
-
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for
 import caesar
 import food_app
 import os
 from werkzeug.utils import secure_filename
 from tkinter import messagebox as msg
+import admin_order_message as adm
 
 app = Flask(__name__)
 config = food_app.read_config()
@@ -106,27 +105,26 @@ def order_product():
             if user is None:
                 return {"ERROR": "Utilizatorul nu a fost găsit."}
             total_price = 0
-
+            fast_food = ""
             if len(phone) == 10 and phone.startswith("07"):
 
                 products = food_app.read_products(config=config)
-                fast_food = []
+
                 for product in products:
                     quantity = int(request.form.get(f'quantity_{product["id"]}', 0))
                     if quantity > 0:
-                        food_app.insert_order(name, product['name'], quantity, address, phone, config)
-                        name = product['name']
-                        quantity = quantity
-                        fast_food.append(f"{product['name']}->{quantity}")
+                        fast_food += f"{product['name']}->{quantity},"
                         price = int(product['price']) * int(quantity)
                         total_price += price
-                msg.showinfo(user, str(fast_food))
+                food_app.insert_order(user_name=name, order_name=str(fast_food), addres=address, phone=phone, config=config)
+
             else:
                 msg.showerror("Error", "Numarul nu are 10 cifre sau nu incepe cu 07")
 
             data = food_app.read_products(config=config)
             return render_template("order_succes.html", name=name, phone=phone,
-                                   address=address, total_price=total_price, message="Comanda a fost plasată cu succes!")
+                                   address=address, total_price=total_price,
+                                   message="Comanda a fost plasată cu succes!")
         except Exception as e:
             return {"ERROR": f"404 NOT FOUND {e}"}
     else:
@@ -135,4 +133,12 @@ def order_product():
 
 
 if __name__ == '__main__':
-    app.run()
+    # data = adm.order_from_database(config)
+    # while True:
+    #     new_data = adm.order_from_database(config)
+    #     if data[-1] != new_data[-1]:
+    #         data = new_data
+    #         adm.show_order(data)
+
+        app.run()
+
