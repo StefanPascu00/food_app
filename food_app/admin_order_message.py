@@ -1,9 +1,6 @@
 import json
 import customtkinter
 import food_app
-import tkinter as tk
-
-i = 0
 
 
 def order_from_database(config):
@@ -41,13 +38,11 @@ def show_order(fast_food_order: list):
 
 
 if __name__ == '__main__':
-    # with open("config.json", "r") as f:
-    #     config = json.loads(f.read())
-    # data = order_from_database(config)
-    # while True:
-    #     new_data = order_from_database(config)
-    #     if data != new_data:
-    #         data = new_data
-    #         show_order(data)
-    fas = ["1", "2", "3"]
-    show_order(fas)
+    with open("config.json", "r") as f:
+        config = json.loads(f.read())
+    data = order_from_database(config)
+    while True:
+        new_data = order_from_database(config)
+        if data != new_data:
+            data = new_data
+            show_order(data)
