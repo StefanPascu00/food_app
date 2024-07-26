@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home_user.css') }}">
     <title>Plasează Comanda</title>
+        <script>
+        function validateForm() {
+            const phoneInput = document.getElementById('phone').value;
+            const phonePattern = /^07\d{8}$/;
+
+            if (!phonePattern.test(phoneInput)) {
+                alert("Numărul de telefon trebuie să înceapă cu '07' și să aibă exact 10 cifre.");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
     <div class="container">

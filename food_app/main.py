@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for
+import re
+
+from flask import Flask, render_template, request, redirect, url_for, flash
 import caesar
 import food_app
 import os
@@ -103,12 +105,12 @@ def order_product():
                 user = f.read()
             if user is None:
                 return {"ERROR": "Utilizatorul nu a fost găsit."}
+            total_price = 0
 
             if len(phone) == 10 and phone.startswith("07"):
 
                 products = food_app.read_products(config=config)
                 fast_food = []
-                total_price = 0
                 for product in products:
                     quantity = int(request.form.get(f'quantity_{product["id"]}', 0))
                     if quantity > 0:
