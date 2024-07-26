@@ -4,7 +4,6 @@ import food_app
 import os
 from werkzeug.utils import secure_filename
 from tkinter import messagebox as msg
-import admin_order_message as adm
 
 app = Flask(__name__)
 config = food_app.read_config()
