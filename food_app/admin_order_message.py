@@ -1,4 +1,5 @@
-import json
+import threading
+import time
 import customtkinter
 import database_function as db
 
@@ -37,19 +38,20 @@ def show_order(fast_food_order: list):
     order = customtkinter.CTkLabel(app, text=str(text_order(fast_food_order)))
     order.pack(padx=20, pady=30)
 
-    return app
+    app.mainloop()
 
 
 def new_order():
-    """Aici rulam un loop pentru a citi mereu din baza de date iar cand apare o comanda noua sa ne-o returneze"""
+    """Aici rulam un loop pentru a citi mereu din baza de date iar cand apare o comanda noua sa ne-o afiseze intr-o noua fereastra"""
     try:
         config = db.read_config()
-        data = order_from_database(config)
+        displayed_orders = []
         while True:
-            new_data = order_from_database(config)
-            if data != new_data:
-                data = new_data
-                show_order(data).mainloop()
+            current_order = order_from_database(config)
+            if current_order not in displayed_orders:
+                displayed_orders.append(current_order)
+                threading.Thread(target=show_order, args=(current_order,)).start()
+                time.sleep(5)
 
     except Exception as e:
         print(e)
