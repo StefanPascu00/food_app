@@ -1,4 +1,5 @@
-def decrypt(message: str, key: int = 20):
+def decrypt(message: str, key: int = 20) -> str:
+    """Decryptam textul dat"""
     message = message
     alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkmlmnopqestuvwxyz"
     result = ""
@@ -14,7 +15,8 @@ def decrypt(message: str, key: int = 20):
     return result
 
 
-def encrypt(message: str, key: int = 20):
+def encrypt(message: str, key: int = 20) -> str:
+    """Crytam textul dat"""
     message = message
     alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkmlmnopqestuvwxyz"
     result = ""
