@@ -1,35 +1,38 @@
 from flask import Flask, render_template, request, redirect, url_for
 import caesar
-import food_app
+import database_function as db
 import os
 from werkzeug.utils import secure_filename
 from tkinter import messagebox as msg
 
 app = Flask(__name__)
-config = food_app.read_config()
-users = food_app.read_users(config=config)
+config = db.read_config()
+users = db.read_users(config=config)
 
 UPLOAD_FOLDER = 'static/uploads/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-def allowed_file(filename):
+def allowed_file(filename: str) -> bool:
+    """Aici verificam daca imaginea are extensia aprobata de noi"""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route("/")
 def open_page():
+    "Deschidem pagina"
     return render_template("login.html")
 
 
 @app.route("/login", methods=['POST'])
 def web_login():
+    """Functia de logare unde vedem daca este un client sau admin"""
     user = request.form['username']
     passwd = request.form['password']
     if user in users.keys():
         if passwd == caesar.decrypt(users[user]):
-            data = food_app.read_products(config=config)
+            data = db.read_products(config=config)
             with open('user.txt', "w") as f:
                 f.write(user)
             if user == 'admin':
@@ -42,6 +45,7 @@ def web_login():
 
 @app.route("/log_out")
 def log_out():
+    """Delogam utilizatorul"""
     with open('user.txt', "w") as f:
         user = f.write("")
     return redirect(url_for('open_page'))
@@ -49,6 +53,7 @@ def log_out():
 
 @app.route("/add_products", methods=['POST'])
 def add_products():
+    """Adaugam produse noi in baza de date"""
     try:
         product_name = request.form['product_name']
         ingredients = request.form['ingredients']
@@ -62,8 +67,8 @@ def add_products():
 
             query = (f"INSERT INTO burger_grill.products (name, ingredients, price, image_url) "
                      f"VALUES ('{product_name}', '{ingredients}', {price}, '{image_url}')")
-            food_app.execute_query(sql_query=query, config=config)
-            data = food_app.read_products(config=config)
+            db.execute_query(sql_query=query, config=config)
+            data = db.read_products(config=config)
             return render_template("home_admin.html", data=data)
         else:
             return render_template("home_admin.html", error="Fișierul încărcat nu este valid.")
@@ -71,8 +76,17 @@ def add_products():
         return {"ERROR": f"404 NOT FOUND {e}"}
 
 
+@app.route("/delete_product/<int:product_id>", methods=['POST'])
+def delete_product(product_id: int):
+    """Aici stergem un produs si afisam pagina fara acel produs"""
+    db.delete_product(product_id, config=config)
+    data = db.read_products(config=config)
+    return render_template("home_admin.html", data=data)
+
+
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
+    """Cerem datele, cream un utilizator nou si il inseram in baza de date"""
     if request.method == 'POST':
         try:
             fullname = request.form['fullname']
@@ -83,7 +97,7 @@ def signup():
             if password == confirm_password:
                 query = (f"INSERT INTO burger_grill.food_app_user(fullname, username, email, password) "
                          f"VALUES ('{fullname}', '{username}', '{mail}', '{caesar.encrypt(password)}')")
-                food_app.execute_query(sql_query=query, config=config)
+                db.execute_query(sql_query=query, config=config)
                 return redirect(url_for('open_page'))
             else:
                 return render_template("signup.html", error="Parolele nu se potrivesc.")
@@ -94,6 +108,7 @@ def signup():
 
 @app.route("/order", methods=['GET', 'POST'])
 def order_product():
+    """Luam datele pentru noua comanda, le inseram in baza de date si afisam pretul total pentru utilizator"""
     if request.method == 'POST':
         try:
             name = request.form['name']
@@ -107,7 +122,7 @@ def order_product():
             fast_food = ""
             if len(phone) == 10 and phone.startswith("07"):
 
-                products = food_app.read_products(config=config)
+                products = db.read_products(config=config)
 
                 for product in products:
                     quantity = int(request.form.get(f'quantity_{product["id"]}', 0))
@@ -115,29 +130,21 @@ def order_product():
                         fast_food += f"{product['name']}->{quantity},"
                         price = int(product['price']) * int(quantity)
                         total_price += price
-                food_app.insert_order(user_name=name, order_name=str(fast_food), addres=address, phone=phone, config=config)
+                db.insert_order(user_name=name, order_name=str(fast_food), addres=address, phone=phone,
+                                      config=config)
 
             else:
                 msg.showerror("Error", "Numarul nu are 10 cifre sau nu incepe cu 07")
 
-            data = food_app.read_products(config=config)
             return render_template("order_succes.html", name=name, phone=phone,
                                    address=address, total_price=total_price,
                                    message="Comanda a fost plasată cu succes!")
         except Exception as e:
             return {"ERROR": f"404 NOT FOUND {e}"}
     else:
-        data = food_app.read_products(config=config)
+        data = db.read_products(config=config)
         return render_template("home_user.html", data=data)
 
 
 if __name__ == '__main__':
-    # data = adm.order_from_database(config)
-    # while True:
-    #     new_data = adm.order_from_database(config)
-    #     if data[-1] != new_data[-1]:
-    #         data = new_data
-    #         adm.show_order(data)
-
-        app.run()
-
+    app.run()

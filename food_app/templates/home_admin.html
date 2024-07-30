@@ -40,6 +40,9 @@
                     <span class="product-name">{{ product.name }}</span>
                     <span class="product-ingredients">{{ product.ingredients }}</span>
                     <span class="product-price">{{ product.price }} RON</span>
+                    <form action="{{ url_for('delete_product', product_id=product.id) }}" method="post">
+                            <button type="submit">Șterge</button>
+                        </form>
                 </div>
             </li>
             {% endfor %}
